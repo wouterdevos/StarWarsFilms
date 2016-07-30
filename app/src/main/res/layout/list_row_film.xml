@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="film"
+            type="com.wouterdevos.starwarsfilms.valueobject.Film" />
+    </data>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextListRowTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        tools:text="Star Wars" />
+
+</layout>
