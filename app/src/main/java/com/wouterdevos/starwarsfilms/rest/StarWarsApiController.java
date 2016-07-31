@@ -3,7 +3,9 @@ package com.wouterdevos.starwarsfilms.rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wouterdevos.starwarsfilms.valueobject.ErrorResponse;
+import com.wouterdevos.starwarsfilms.valueobject.Film;
 import com.wouterdevos.starwarsfilms.valueobject.FilmsResponse;
+import com.wouterdevos.starwarsfilms.valueobject.PeopleResponse;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -13,7 +15,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FilmsApiController {
+public class StarWarsApiController {
 
     private static final String BASE_URL = "http://swapi.co/api/";
 
@@ -35,7 +37,7 @@ public class FilmsApiController {
 
     public static void getFilms() {
         Retrofit retrofit = getRetrofitInstance();
-        FilmsApiService apiService = retrofit.create(FilmsApiService.class);
+        StarWarsApiService apiService = retrofit.create(StarWarsApiService.class);
         Call<FilmsResponse> call = apiService.getFilms();
         call.enqueue(new Callback<FilmsResponse>() {
             @Override
@@ -53,6 +55,18 @@ public class FilmsApiController {
                 postRequestFailed(UNKNOWN_STATUS_CODE);
             }
         });
+    }
+
+    public static void getPeople(Film film) {
+        Retrofit retrofit = getRetrofitInstance();
+        StarWarsApiService apiService = retrofit.create(StarWarsApiService.class);
+        Call<PeopleResponse> call = apiService.getPeople();
+    }
+
+    public static void getPeople(long id) {
+        Retrofit retrofit = getRetrofitInstance();
+        StarWarsApiService apiService = retrofit.create(StarWarsApiService.class);
+        Call<PeopleResponse> call = apiService.getPeople();
     }
 
     private static void postRequestFailed(int statusCode) {

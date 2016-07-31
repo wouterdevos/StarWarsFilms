@@ -13,7 +13,7 @@ import com.wouterdevos.starwarsfilms.R;
 import com.wouterdevos.starwarsfilms.adapter.DividerItemDecoration;
 import com.wouterdevos.starwarsfilms.adapter.FilmsAdapter;
 import com.wouterdevos.starwarsfilms.databinding.ActivityMasterBinding;
-import com.wouterdevos.starwarsfilms.rest.FilmsApiController;
+import com.wouterdevos.starwarsfilms.rest.StarWarsApiController;
 import com.wouterdevos.starwarsfilms.valueobject.ErrorResponse;
 import com.wouterdevos.starwarsfilms.valueobject.Film;
 import com.wouterdevos.starwarsfilms.valueobject.FilmsResponse;
@@ -45,7 +45,7 @@ public class MasterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        FilmsApiController.getFilms();
+        StarWarsApiController.getFilms();
     }
 
     @Override
