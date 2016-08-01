@@ -16,13 +16,6 @@ public class BaseObject {
         this.id = id;
     }
 
-    public void setIdFromUrl(String url) {
-        String stringId = url.replace(url, "");
-        stringId = stringId.replace("/", "");
-        long id = Long.valueOf(stringId);
-        setId(id);
-    }
-
     public String getUrl() {
         return url;
     }

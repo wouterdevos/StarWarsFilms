@@ -15,8 +15,6 @@ public class Film extends BaseObject {
     private String openingCrawl;
     @SerializedName("release_date")
     private String releaseDate;
-    @SerializedName("url")
-    private String url;
     @SerializedName("characters")
     private List<String> characters = new ArrayList<>();
 
@@ -42,15 +40,6 @@ public class Film extends BaseObject {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public List<String> getCharacters() {

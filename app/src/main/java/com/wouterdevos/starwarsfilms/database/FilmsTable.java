@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.wouterdevos.starwarsfilms.util.Utils;
+import com.wouterdevos.starwarsfilms.helper.Helper;
 import com.wouterdevos.starwarsfilms.valueobject.Film;
 import com.wouterdevos.starwarsfilms.valueobject.FilmsResponse;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 public class FilmsTable {
 
-    private static final String TABLE_NAME = "films";
+    public static final String TABLE_NAME = "films";
 
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_TITLE = "title";
-    private static final String COLUMN_RELEASE_DATE = "release_date";
-    private static final String COLUMN_OPENING_CRAWL = "opening_crawl";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_RELEASE_DATE = "release_date";
+    public static final String COLUMN_OPENING_CRAWL = "opening_crawl";
 
     private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_NAME
             + "("
@@ -46,7 +46,7 @@ public class FilmsTable {
     public static void insertFilm(SQLiteDatabase database, Film film) {
         ContentValues contentValues = new ContentValues();
 
-        long id = Utils.getIdFromUrl(film.getUrl());
+        long id = Helper.getIdFromUrl(film.getUrl());
         contentValues.put(COLUMN_ID, id);
         contentValues.put(COLUMN_TITLE, film.getTitle());
         contentValues.put(COLUMN_RELEASE_DATE, film.getReleaseDate());

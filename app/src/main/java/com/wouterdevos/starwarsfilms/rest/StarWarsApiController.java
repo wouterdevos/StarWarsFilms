@@ -2,6 +2,8 @@ package com.wouterdevos.starwarsfilms.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wouterdevos.starwarsfilms.database.DatabaseHelper;
+import com.wouterdevos.starwarsfilms.valueobject.ETag;
 import com.wouterdevos.starwarsfilms.valueobject.ErrorResponse;
 import com.wouterdevos.starwarsfilms.valueobject.Film;
 import com.wouterdevos.starwarsfilms.valueobject.FilmsResponse;
@@ -18,6 +20,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class StarWarsApiController {
 
     private static final String BASE_URL = "http://swapi.co/api/";
+
+    public static final String PATH_FILMS = "films/?format=json";
+    public static final String PATH_PEOPLE = "people/?format=json";
+
+    private static final String HEADER_IF_NONE_MATCH = "If-None-Match";
+
+    private static final int HTTP_REDIRECTION_304 = 304;
 
     private static final int UNKNOWN_STATUS_CODE = -1;
 
@@ -36,16 +45,24 @@ public class StarWarsApiController {
     }
 
     public static void getFilms() {
+        final DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
+        final ETag eTag = databaseHelper.readETag(BASE_URL + PATH_FILMS);
+
         Retrofit retrofit = getRetrofitInstance();
         StarWarsApiService apiService = retrofit.create(StarWarsApiService.class);
-        Call<FilmsResponse> call = apiService.getFilms();
+        Call<FilmsResponse> call = apiService.getFilms(eTag.getValue());
         call.enqueue(new Callback<FilmsResponse>() {
             @Override
             public void onResponse(Call<FilmsResponse> call, Response<FilmsResponse> response) {
-                FilmsResponse filmsResponse = response.body();
                 if (response.isSuccessful()) {
-                    EventBus.getDefault().post(filmsResponse);
-                } else {
+//                    Long id = eTag != null ? eTag.getId() : null;
+//                    String url = call.request().url().toString();
+//                    String value = response.headers().get(HEADER_IF_NONE_MATCH);
+//                    databaseHelper.insertETag(id, url, value);
+                    insertETag(eTag, call, response, databaseHelper);
+                    databaseHelper.insertFilms(response.body());
+                    EventBus.getDefault().post(response.body());
+                } else if (response.code() != HTTP_REDIRECTION_304){
                     postRequestFailed(response.code());
                 }
             }
@@ -60,13 +77,50 @@ public class StarWarsApiController {
     public static void getPeople(Film film) {
         Retrofit retrofit = getRetrofitInstance();
         StarWarsApiService apiService = retrofit.create(StarWarsApiService.class);
-        Call<PeopleResponse> call = apiService.getPeople();
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
+        getPeople(apiService, databaseHelper, film, 0);
     }
 
-    public static void getPeople(long id) {
-        Retrofit retrofit = getRetrofitInstance();
-        StarWarsApiService apiService = retrofit.create(StarWarsApiService.class);
-        Call<PeopleResponse> call = apiService.getPeople();
+    private static void getPeople(final StarWarsApiService apiService, final DatabaseHelper databaseHelper,
+                                 final Film film, final int index) {
+        String peopleUrl = film.getCharacters().get(index);
+        final ETag eTag = databaseHelper.readETag(peopleUrl);
+        Call<PeopleResponse> call = apiService.getPeople(eTag.getValue(), peopleUrl);
+        call.enqueue(new Callback<PeopleResponse>() {
+            @Override
+            public void onResponse(Call<PeopleResponse> call, Response<PeopleResponse> response) {
+                if (response.isSuccessful()) {
+//                    Long id = eTag != null ? eTag.getId() : null;
+//                    String url = call.request().url().toString();
+//                    String value = response.headers().get(HEADER_IF_NONE_MATCH);
+//                    databaseHelper.insertETag(id, url, value);
+                    insertETag(eTag, call, response, databaseHelper);
+                    databaseHelper.insertPeople(film.getId(), response.body());
+                }
+
+                if (response.isSuccessful() || response.code() == HTTP_REDIRECTION_304) {
+                    if ((index + 1) < film.getCharacters().size()) {
+                        getPeople(apiService, databaseHelper, film, index + 1);
+                    } else {
+                        EventBus.getDefault().post(film.getCharacters());
+                    }
+                } else {
+                    postRequestFailed(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PeopleResponse> call, Throwable t) {
+                postRequestFailed(UNKNOWN_STATUS_CODE);
+            }
+        });
+    }
+
+    private static void insertETag(ETag eTag, Call<?> call, Response<?> response, DatabaseHelper databaseHelper) {
+        Long id = eTag != null ? eTag.getId() : null;
+        String url = call.request().url().toString();
+        String value = response.headers().get(HEADER_IF_NONE_MATCH);
+        databaseHelper.insertETag(id, url, value);
     }
 
     private static void postRequestFailed(int statusCode) {
