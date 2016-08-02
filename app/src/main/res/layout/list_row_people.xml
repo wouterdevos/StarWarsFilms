@@ -5,18 +5,17 @@
     <data>
 
         <variable
-            name="film"
-            type="com.wouterdevos.starwarsfilms.valueobject.Film" />
+            name="people"
+            type="com.wouterdevos.starwarsfilms.valueobject.People" />
     </data>
 
     <TextView
-        android:id="@+id/title"
-        style="@style/TextTitle"
+        android:id="@+id/name"
+        style="@style/TextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
         android:padding="@dimen/activity_horizontal_margin"
-        android:text="@{film.title}"
-        tools:text="Star Wars" />
+        android:text="@{people.name}"
+        tools:text="Luke Skywalker" />
 
 </layout>

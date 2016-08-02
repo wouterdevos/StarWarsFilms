@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">StarWarsFilms</string>
+    <string name="app_name">Star Wars Films</string>
+
+    <string name="toast_error_connecting_to_internet">There was an error connecting to the internet.</string>
+
+    <string name="title_title">Title</string>
+    <string name="title_release_date">Release Date</string>
+    <string name="title_opening_crawl">Opening Crawl</string>
+    <string name="title_characters">Characters</string>
+
+    <string name="message_no_characters_available">No characters available.</string>
 </resources>
