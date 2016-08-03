@@ -63,6 +63,11 @@ public class FilmMasterActivity extends AppCompatActivity implements FilmMasterC
     }
 
     @Override
+    public void setRetryButton(boolean visible) {
+        mBinding.retryButton.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public void showFilms(List<Film> films) {
         mFilmMasterAdapter.addAll(films);
         mFilmMasterAdapter.notifyDataSetChanged();
@@ -71,6 +76,10 @@ public class FilmMasterActivity extends AppCompatActivity implements FilmMasterC
     @Override
     public void showError() {
         Toast.makeText(this, R.string.toast_error_connecting_to_internet, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onRetry(View view) {
+        mFilmMasterPresenter.getFilms();
     }
 
     private void initRecyclerView() {

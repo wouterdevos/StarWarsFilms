@@ -9,4 +9,6 @@
     <string name="title_characters">Characters</string>
 
     <string name="message_no_characters_available">No characters available.</string>
+
+    <string name="button_retry">Retry</string>
 </resources>

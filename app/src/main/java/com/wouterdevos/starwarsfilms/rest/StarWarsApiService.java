@@ -1,7 +1,7 @@
 package com.wouterdevos.starwarsfilms.rest;
 
 import com.wouterdevos.starwarsfilms.valueobject.FilmsResponse;
-import com.wouterdevos.starwarsfilms.valueobject.PeopleResponse;
+import com.wouterdevos.starwarsfilms.valueobject.People;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +13,5 @@ public interface StarWarsApiService {
     Call<FilmsResponse> getFilms();
 
     @GET
-    Call<PeopleResponse> getPeople(@Url String url);
+    Call<People> getPeople(@Url String url);
 }

@@ -16,10 +16,12 @@ public class FilmDetailPresenter implements FilmDetailContract.Presenter {
 
     private FilmDetailContract.View mView;
     private Film mFilm;
+    private List<Object> mPeopleObjects;
 
     public FilmDetailPresenter(FilmDetailContract.View view, Film film) {
         mView = view;
         mFilm = film;
+        mPeopleObjects = new ArrayList<>();
     }
 
     @Override
@@ -39,13 +41,13 @@ public class FilmDetailPresenter implements FilmDetailContract.Presenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRequestSuccess(List<People> people) {
-        List<Object> peopleObjects = new ArrayList<>();
-        for (People person : people) {
-            peopleObjects.add(person);
+    public void onRequestSuccess(People people) {
+        mPeopleObjects.add(people);
+
+        if (people.isFinal()) {
+            mView.setProgressIndicator(false);
+            mView.showPeople(mPeopleObjects);
         }
-        mView.setProgressIndicator(false);
-        mView.showPeople(peopleObjects);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

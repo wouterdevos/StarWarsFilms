@@ -35,22 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/film_detail_margin"
-            android:text="@string/title_release_date" />
-
-        <TextView
-            android:id="@+id/release_date"
-            style="@style/TextDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@{film.releaseDate}"
-            tools:text="1977-05-25" />
-
-        <TextView
-            style="@style/TextTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/film_detail_margin"
             android:text="@string/title_title" />
 
         <TextView
@@ -61,6 +45,22 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="@{film.title}"
             tools:text="A New Hope" />
+
+        <TextView
+            style="@style/TextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/film_detail_margin"
+            android:text="@string/title_release_date" />
+
+        <TextView
+            android:id="@+id/release_date"
+            style="@style/TextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@{film.releaseDate}"
+            tools:text="1977-05-25" />
 
         <TextView
             style="@style/TextTitle"
@@ -82,7 +82,6 @@
             style="@style/TextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/film_detail_margin"
             android:text="@string/title_characters" />
 
         <ProgressBar
@@ -91,6 +90,7 @@
             android:layout_height="@dimen/progress_bar_size"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/film_detail_margin"
             android:visibility="@{loading != null &amp;&amp; loading ? View.VISIBLE : View.GONE}" />
 
         <TextView
@@ -98,7 +98,7 @@
             style="@style/TextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/film_detail_margin"
             android:text="@string/message_no_characters_available"
             android:visibility="@{error != null &amp;&amp; error ? View.VISIBLE : View.GONE}" />
 

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class FilmsResponse extends BaseResponse {
+public class FilmsResponse {
 
     @SerializedName("results")
     private List<Film> films;

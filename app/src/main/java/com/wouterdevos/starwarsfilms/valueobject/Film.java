@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Film extends BaseObject implements Parcelable {
+public class Film implements Parcelable {
 
     @SerializedName("title")
     private String title;
@@ -34,24 +34,12 @@ public class Film extends BaseObject implements Parcelable {
         return openingCrawl;
     }
 
-    public void setOpeningCrawl(String openingCrawl) {
-        this.openingCrawl = openingCrawl;
-    }
-
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public List<String> getCharacters() {
         return characters;
-    }
-
-    public void setCharacters(List<String> characters) {
-        this.characters = characters;
     }
 
     @Override
@@ -61,7 +49,6 @@ public class Film extends BaseObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeString(this.title);
         dest.writeString(this.openingCrawl);
         dest.writeString(this.releaseDate);
@@ -69,7 +56,6 @@ public class Film extends BaseObject implements Parcelable {
     }
 
     protected Film(Parcel in) {
-        super(in);
         this.title = in.readString();
         this.openingCrawl = in.readString();
         this.releaseDate = in.readString();

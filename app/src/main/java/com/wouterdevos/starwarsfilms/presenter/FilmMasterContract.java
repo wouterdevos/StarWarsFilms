@@ -7,6 +7,7 @@ import java.util.List;
 public class FilmMasterContract {
 
     public interface View extends BaseContract.View {
+        void setRetryButton(boolean visible);
         void showFilms(List<Film> films);
     }
 

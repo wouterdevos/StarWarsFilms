@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.wouterdevos.starwarsfilms.R;
 import com.wouterdevos.starwarsfilms.adapter.FilmDetailAdapter;
@@ -32,6 +33,11 @@ public class FilmDetailActivity extends AppCompatActivity implements FilmDetailC
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_film_detail);
 
+        setSupportActionBar(mBinding.toolbar.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("");
+
         Film film = getIntent().getParcelableExtra(EXTRA_FILM);
         mFilmDetailPresenter = new FilmDetailPresenter(this, film);
 
@@ -51,6 +57,18 @@ public class FilmDetailActivity extends AppCompatActivity implements FilmDetailC
     protected void onStop() {
         super.onStop();
         mFilmDetailPresenter.unregisterEventBus();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
